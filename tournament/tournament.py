@@ -6,6 +6,7 @@
 import psycopg2
 
 
+
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
     return psycopg2.connect("dbname=tournament")
@@ -13,16 +14,34 @@ def connect():
 
 def deleteMatches():
     """Remove all the match records from the database."""
-
+    conn = connect()
+    c = conn.cursor()
+    c.execute("update players set wins =0;")
+    c.execute("update players set nummatch =0;")
+    conn.commit()
+    conn.close()
 
 def deletePlayers():
     """Remove all the player records from the database."""
+    conn = connect()
+    c = conn.cursor()
+    c.execute("delete from players;")
+    conn.commit()
+    conn.close()
 
 
 def countPlayers():
     """Returns the number of players currently registered.
      *This function should not use the Python len() function;
       it should have the database count the players."""
+    conn = connect()
+    c = conn.cursor()
+    c.execute("select count(*) from players")
+    rows = c.fetchall()
+    for row in rows:
+        return row[0]
+    conn.close()
+
 
 
 def registerPlayer(name):
@@ -35,6 +54,12 @@ def registerPlayer(name):
       name: the player's full name (need not be unique).
     """
 
+    conn = connect()
+    c = conn.cursor()
+    c.execute("insert into players (name, wins, nummatch) values (%s,0,0);",(name,))
+
+    conn.commit()
+    conn.close()
 
 def playerStandings():
     """Returns a list of the players and their win records, sorted by wins.
@@ -50,17 +75,27 @@ def playerStandings():
         wins: the number of matches the player has won
         matches: the number of matches the player has played
     """
-
+    conn = connect()
+    c = conn.cursor()
+    c.execute("select id, name, wins, nummatch from players;")
+    standings = c.fetchall()
+    return standings
+    conn.close()
 
 def reportMatch(winner, loser):
     """Records the outcome of a single match between two players.
     *Stores the outcome of a single match between two players in the database.
-
+     update players set wins =wins+1 where id=%s;
     Args:
       winner:  the id number of the player who won
       loser:  the id number of the player who lost
     """
-
+    conn = connect()
+    c = conn.cursor()
+    c.execute("update players set wins =wins+1 where id=%s;",(winner,))
+    c.execute("update players set nummatch = nummatch+1 where id = %s or id = %s;",(winner,loser,))
+    conn.commit()
+    conn.close()
 
 def swissPairings():
     """Returns a list of pairs of players for the next round of a match.
@@ -77,5 +112,7 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+#print countPlayers()
+
 
 

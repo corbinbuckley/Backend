@@ -8,13 +8,14 @@
 
 from tournament import *
 
+
 def testCount():
     """
     Test for initial player count,
              player count after 1 and 2 players registered,
              player count after players deleted.
     """
-    deleteMatches()
+    #deleteMatches()
     deletePlayers()
     c = countPlayers()
     if c == '0':
@@ -80,6 +81,7 @@ def testReportMatches():
     registerPlayer("Cathy Burton")
     registerPlayer("Diane Grant")
     standings = playerStandings()
+    print standings
     [id1, id2, id3, id4] = [row[0] for row in standings]
     reportMatch(id1, id2)
     reportMatch(id3, id4)
