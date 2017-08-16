@@ -105,6 +105,13 @@ def swissPairings():
     player with an equal or nearly-equal win record, that is, a player adjacent
     to him or her in the standings.
 
+    select id,name from players where wins >=1 limit 2
+    select id,name from players where wins >=1 limit 2 offset 2;
+    create view wins0 as select id,name from players where wins=0;
+    select id,name
+ select a.id, a.name, b.id, b.name from wins0 as a, wins0 as b where a.id < b.id;
+
+
     Returns:
       A list of tuples, each of which contains (id1, name1, id2, name2)
         id1: the first player's unique id
@@ -112,6 +119,13 @@ def swissPairings():
         id2: the second player's unique id
         name2: the second player's name
     """
+    conn = connect()
+    c = conn.cursor()
+    c.execute("select a.id, a.name, b.id, b.name from players as a, players as b where a.wins=b.wins and a.id < b.id limit 4;")
+    pairings = c.fetchall()
+    return pairings
+    conn.close()
+
 #print countPlayers()
 
 

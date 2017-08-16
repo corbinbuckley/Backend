@@ -81,7 +81,6 @@ def testReportMatches():
     registerPlayer("Cathy Burton")
     registerPlayer("Diane Grant")
     standings = playerStandings()
-    print standings
     [id1, id2, id3, id4] = [row[0] for row in standings]
     reportMatch(id1, id2)
     reportMatch(id3, id4)
@@ -120,6 +119,7 @@ def testPairings():
     registerPlayer("Princess Celestia")
     registerPlayer("Princess Luna")
     standings = playerStandings()
+    print standings
     [id1, id2, id3, id4, id5, id6, id7, id8] = [row[0] for row in standings]
     pairings = swissPairings()
     if len(pairings) != 4:
@@ -130,6 +130,7 @@ def testPairings():
     reportMatch(id5, id6)
     reportMatch(id7, id8)
     pairings = swissPairings()
+    print pairings
     if len(pairings) != 4:
         raise ValueError(
             "For eight players, swissPairings should return 4 pairs. Got {pairs}".format(pairs=len(pairings)))
