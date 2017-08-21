@@ -121,10 +121,11 @@ def swissPairings():
     """
     conn = connect()
     c = conn.cursor()
-    c.execute("select a.id, a.name, b.id, b.name from players as a, players as b where a.wins=b.wins and a.id < b.id limit 4;")
+    c.execute("select distinct on(a.id) a.id, a.name, b.id, b.name from players as a, players as b where a.wins=b.wins and a.id < b.id limit 4;")
     pairings = c.fetchall()
     return pairings
     conn.close()
+
 
 #print countPlayers()
 
