@@ -22,18 +22,24 @@ DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
 
+def restaurantName():
+    restaurants = session.query(Restaurant).all()
+    for restaurant in restaurants:
+        return restaurant.name
+
 class webserverHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
-            if self.path.endswith("/hello"):
+            restaurantList = restaurantName()
+            if self.path.endswith("/restaurant"):
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
 
                 output = ""
                 output += "<html><body>"
-                output += "Hello!"
-                output += '''<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name="message" type="text" ><input type="submit" value="Submit"> </form>'''
+                output += "Local Restaurants: /n"
+                output += "<h2>%s</h2>" % restaurantList
                 output += "</body></html>"
                 self.wfile.write(output)
                 print output
