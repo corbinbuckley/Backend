@@ -38,14 +38,13 @@ class webserverHandler(BaseHTTPRequestHandler):
                 output += "<html><body>"
                 output += "Local Restaurants: </br>"
                 for restaurant in restaurants:
-                    output += "<html><body>"
                     output += "<h2>"
                     output += restaurant.name
                     output += "</h2>"
-                    output += "<a hfref = '/edit'>Edit</a></br>"
-                    output += "<a hfref = '/delete'>Delete</a>"
+                    output += "<a href = '/edit'>Edit</a></br>"
+                    output += "<a href = '/delete'>Delete</a>"
                     output += "</br>"
-                    output += "</body></html>"
+                output += "</br><a href = '/new'>Make a New Restaurant Here</a>"
                 output += "</body></html>"
                 self.wfile.write(output)
                 return
@@ -58,6 +57,20 @@ class webserverHandler(BaseHTTPRequestHandler):
                 output += "<html><body>"
                 output += "&#161Hola <a href = '/hello'> Back to Hello</a>"
                 output += '''<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name="message" type="text" ><input type="submit" value="Submit"> </form>'''
+                output += "</body></html>"
+                self.wfile.write(output)
+                print output
+                return  #exits the if statment
+
+            if self.path.endswith("/new"):
+                self.send_response(200)
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
+
+                output = ""
+                output += "<html><body>"
+                #output += "<h2>Make a New Restaurant</h2>"
+                output += '''<form method='POST' enctype='multipart/form-data' action='/restaurant'><h2>Make a New Restaurant</h2><input name="newRestaurant" type="text" ><input type="submit" value="Create"> </form>'''
                 output += "</body></html>"
                 self.wfile.write(output)
                 print output
@@ -76,14 +89,15 @@ class webserverHandler(BaseHTTPRequestHandler):
             # of paramaters
             if ctype == 'multipart/form-data': # check if this if form data being received
                 fields=cgi.parse_multipart(self.rfile, pdict) # then make variable fields, and use parse.multipart which will collect all the fields in a form
-                messagecontent = fields.get('message') # to get out the value of a specfic field or set of fields and store them in an anrray
+                #messagecontent = fields.get('message') # to get out the value of a specfic field or set of fields and store them in an anrray
+                newRestaurant = fields.get('newRestaurant')
                 # call this field 'message' here and when create html form.
 
                 #So now that I've received a post request I can decide what to tell the client with the new information I've received.
             output = ""
             output += "<html><body>"
             output += "<h2> Okay, how about this: </h2>"
-            output += "<h1> %s</h1>" % messagecontent[0] #return the first value of the array when submited the form
+            output += "<h1> %s</h1>" % newRestaurant#messagecontent[0] #return the first value of the array when submited the form
             output += '''<form method='POST' enctype='multipart/form-data' action='/hello'><h2>What would you like me to say?</h2><input name="message" type="text" ><input type="submit" value="Submit"> </form>'''
             output += "</body></html>"
             self.wfile.write(output)
