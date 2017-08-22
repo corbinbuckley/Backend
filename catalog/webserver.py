@@ -7,6 +7,7 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
 from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
 
 from BaseHTTPServer import BaseHTTPRequestHandler, HTTPServer
 import cgi
@@ -22,27 +23,31 @@ DBSession = sessionmaker(bind=engine)
 
 session = DBSession()
 
-def restaurantName():
-    restaurants = session.query(Restaurant).all()
-    for restaurant in restaurants:
-        return restaurant.name
 
 class webserverHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         try:
-            restaurantList = restaurantName()
+
             if self.path.endswith("/restaurant"):
+                restaurants = session.query(Restaurant).all()
                 self.send_response(200)
                 self.send_header('Content-type', 'text/html')
                 self.end_headers()
 
                 output = ""
                 output += "<html><body>"
-                output += "Local Restaurants: /n"
-                output += "<h2>%s</h2>" % restaurantList
+                output += "Local Restaurants: </br>"
+                for restaurant in restaurants:
+                    output += "<html><body>"
+                    output += "<h2>"
+                    output += restaurant.name
+                    output += "</h2>"
+                    output += "<a hfref = '/edit'>Edit</a></br>"
+                    output += "<a hfref = '/delete'>Delete</a>"
+                    output += "</br>"
+                    output += "</body></html>"
                 output += "</body></html>"
                 self.wfile.write(output)
-                print output
                 return
             if self.path.endswith("/hola"):
                 self.send_response(200)
