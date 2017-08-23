@@ -78,8 +78,8 @@ class webserverHandler(BaseHTTPRequestHandler):
                 return  #exits the if statment
 
             if self.path.endswith("/edit"):
-                restauratnIDPath = self.path.split("/")[2]
-                restaurantEdit = session.query(Restaurant).filter_by(id = restauratnIDPath).one()
+                restaurantIDPath = self.path.split("/")[2]
+                restaurantEdit = session.query(Restaurant).filter_by(id = restaurantIDPath).one()
                 if restaurantEdit != [] :
                     self.send_response(200)
                     self.send_header('Content-type', 'text/html')
@@ -89,12 +89,32 @@ class webserverHandler(BaseHTTPRequestHandler):
                     output += "<html><body><h2>"
                     output += restaurantEdit.name
                     output += "</h2>"
-                    output += "<form method='POST' enctype='multipart/form-data' action='/restaurant/%s/edit'>" %restauratnIDPath
+                    output += "<form method='POST' enctype='multipart/form-data' action='/restaurant/%s/edit'>" %restaurantIDPath
                     output += '''<input name="newRestaurant" type="text" ><input type="submit" value="Rename"> </form>'''
                     output += "</body></html>"
                     self.wfile.write(output)
                     print output
                     return  #exits the if statment
+
+            if self.path.endswith("/delete"):
+                restaurantIDPath = self.path.split("/")[2]
+                restaurantDelete = session.query(Restaurant).filter_by(id = restaurantIDPath).one()
+                if restaurantEdit != [] :
+                    self.send_response(200)
+                    self.send_header('Content-type', 'text/html')
+                    self.end_headers()
+
+                    output = ""
+                    output += "<html><body><h2>"
+                    output += "Are you sure you want to delete "
+                    output += restaurantDelete.name
+                    output += "</h2>"
+                    output += "<form method='POST' enctype='multipart/form-data' action='/restaurant/%s/delete'>" %restaurantIDPath
+                    output += '''<input name="deleteRestaurant" type="button" ><input type="submit" value="Delete"> </form>'''
+                    output += "</body></html>"
+                    self.wfile.write(output)
+                    return
+
 
         except IOError:
             self.send_error(404, "File Not Found %s" % self.path)
