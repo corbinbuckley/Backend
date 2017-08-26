@@ -1,5 +1,5 @@
 from flask import Flask
-from flask import render_template, request, redirect, flash
+from flask import render_template, request, redirect, flash, jsonify
 from flask import url_for
 app = Flask(__name__)
 
@@ -19,6 +19,11 @@ def restaurantMenuJSON(restaurant_id):
     items = session.query(MenuItem).filter_by(
         restaurant_id=restaurant_id).all()
     return jsonify(MenuItems=[i.serialize for i in items])
+
+@app.route('/restaurants/<int:restaurant_id>/menu/<int:menu_id>/JSON')
+def menuItemJSON(restaurant_id, menu_id):
+    item = session.query(MenuItem).filter_by(id=menu_id).one()
+    return jsonify(MenuItems=item.serialize)
 
 @app.route('/')
 @app.route('/restaurants/<int:restaurant_id>/')
