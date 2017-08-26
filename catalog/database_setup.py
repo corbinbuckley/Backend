@@ -28,6 +28,19 @@ class MenuItem(Base):
 
     restaurant = relationship(Restaurant)
 
+# We added this serialize function to be able to send JSON objects in a
+# serializable format
+    @property
+    def serialize(self):
+
+        return {
+            'name': self.name,
+            'description': self.description,
+            'id': self.id,
+            'price': self.price,
+            'course': self.course,
+        }
+
 ##### insert at end of file ######
 
 engine = create_engine('sqlite:///restaurantmenu.db')
