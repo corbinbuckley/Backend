@@ -1,7 +1,22 @@
 <html>
+<link rel="stylesheet" type="text/css" href='{{url_for('static', filename = 'bootstrap.css')}}'>
+<style>
+    input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+</style>
 <body>
-<h1> Are you sure you want to delete {{item.name}}? </h1>
+<div class="container">
+<h2> Are you sure you want to delete: {{item.name}}? </h2>
 
 <form action="{{ url_for('deleteMenuItem', restaurant_id=item.restaurant_id, menu_id=item.id)}}" method = 'post'>
 
@@ -12,7 +27,8 @@
 
 </form>
 
-<a href = "{{ url_for('restaurantMenu', restaurant_id = item.restaurant_id)}}"> Cancel </a>
+<a href = "{{ url_for('restaurantMenu', restaurant_id = item.restaurant_id)}}" style="color: red"> Cancel </a>
+</div>
 </body>
 
 </html>
