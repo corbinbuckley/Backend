@@ -95,9 +95,16 @@ def deleteMenuItem(restaurant_id, menu_id):
         return render_template(
             'deletemenuitem.html', restaurant_id=restaurant_id, menu_id = menu_id, item=deleteItem)
 
-@app.route('/restaurants/<int:restaurant_id>/delete')
+@app.route('/restaurants/<int:restaurant_id>/delete', methods=['GET', 'POST'])
 def deleteRestaurant(restaurant_id):
-    return "Delete restaurant"
+    deleteRestaurant = session.query(Restaurant).filter_by(id= restaurant_id).one()
+    if request.method == 'POST':
+        session.delete(deleteRestaurant)
+        session.commit()
+        flash("Restaurant deleted!")
+        return redirect(url_for('allRestaurants'))
+    else:
+        return render_template('deleteRestaurant.html', deleteRestaurant=deleteRestaurant)
 
 
 if __name__ == '__main__':
