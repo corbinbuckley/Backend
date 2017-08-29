@@ -1,13 +1,62 @@
 <html>
+<link rel="stylesheet" type="text/css" href='{{url_for('static', filename = 'bootstrap.css')}}'>
+<style>
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.inputform {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    max-width: 600px;
+}
+.formbody {
+    margin: 0 auto;
+    max-width: 500px;
+    width: 100%;
+}
+</style>
 <body>
-    <h1>Edit Menu Item</h1>
+<div class="formbody">
+<div class="container">
+<h2>Edit Menu Item</h2>
+<div class="inputform">
+
 
     <form action="{{url_for('editMenuItem', restaurant_id=restaurant_id, menu_id = menu_id)}}" method="post" >
-    <p>Name:</p>
-    <input type="text" size="30" name="name" placeholder="{{item.name}}">
+        <label for="name">Item Name</label>
+        <input type="text" id="name" name="name" placeholder="{{item.name}}">
+        <label for="price">Item Price</label>
+        <input type="text" id="price" size="30" name="price" placeholder="{{item.price}}">
+        <label for="description">Description</label>
+        <input type="text" id="description" size="50" name="description" placeholder="{{item.description}}"><br>
 
-<input type="submit" name="Edit">
+    <input type="submit" value="Save">
     </form>
-    <a href = '{{url_for('restaurantMenu', restaurant_id = restaurant_id) }}'>Cancel</a>
+    <a href = '{{url_for('restaurantMenu', restaurant_id = restaurant_id) }}' style="color: red">Cancel</a>
+</div>
+</div>
+</div>
 </body>
 </html>
