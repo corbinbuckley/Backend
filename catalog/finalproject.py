@@ -1,4 +1,4 @@
-from flask import flask
+from flask import Flask
 from flask import render_template, request, redirect, flash, jsonify
 from flask import url_for
 
