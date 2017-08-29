@@ -1,7 +1,8 @@
 <html>
+<link rel="stylesheet" type="text/css" href='{{url_for('static', filename = 'bootstrap.css')}}'>
 
 <body>
-
+<div class="container">
 <h1>Add New Restaurant</h1>
 
 <form action="{{url_for('newRestaurant')}}" method='post'>
@@ -11,7 +12,7 @@
 <input type="submit" value="Create">
 </form>
 
-
+</div>
 </body>
 
 </html>
