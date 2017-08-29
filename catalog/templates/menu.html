@@ -1,8 +1,10 @@
 <html>
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename = 'style.css')}}">
+<!-- <link rel="stylesheet" type="text/css" href='{{url_for('static', filename = 'bootstrap.css')}}'> -->
 <body>
-
+<div class="container">
 <h1>{{restaurant.name}}</h1>
+
 
 {% with messages = get_flashed_messages() %}
     {% if messages %}
@@ -13,8 +15,15 @@
     </ul>
     {% endif %}
 {% endwith %}
+<div class="row">
+    <div class="home">
+        <a href='{{url_for('allRestaurants') }}'>Return to home</a>
+    </div>
+    <div >
+        <a href = '{{url_for('newMenuItem', restaurant_id = restaurant.id) }}'>Create New Menu Item</a>
+    </div>
 
-<a href = '{{url_for('newMenuItem', restaurant_id = restaurant.id) }}'>Create New Menu Item</a>
+</div>
 <br>
 
 {% for i in items %}
@@ -22,18 +31,21 @@
 <div>
 
 <p>{{i.name}}</p>
+<p class="price"> {{i.price}} </p>
+<p class="description">{{i.description}}</p>
 
-<p>{{i.description}}</p>
 
-<p> {{i.price}} </p>
+
 
 <a href = '{{url_for('editMenuItem', restaurant_id = restaurant.id, menu_id = i.id) }}'>Edit</a>
-<br>
+
 <a href = '{{url_for('deleteMenuItem', restaurant_id = restaurant.id, menu_id = i.id ) }}'>Delete</a>
+<hr style="border-bottom: dotted white;">
 </div>
 
 
 {% endfor %}
+</div>
 </body>
 
 </html>
