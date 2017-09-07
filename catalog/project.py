@@ -4,7 +4,7 @@ from flask import url_for
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from database_setup import Restaurant, Base, MenuItem
+from database_setup import Restaurant, Base, MenuItem, User
 
 #imports for Aurization and stuff
 from flask import session as login_session
