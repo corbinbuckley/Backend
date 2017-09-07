@@ -196,8 +196,10 @@ def allRestaurants():
 
 @app.route('/restaurants/new/', methods= ['GET', 'POST'])
 def newRestaurant():
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
-        newRestaurant = Restaurant(name= request.form['name'])
+        newRestaurant = Restaurant(name= request.form['name'], user_id=login_session['user_id'])
         session.add(newRestaurant)
         session.commit()
         flash("New Restaurant added!")
@@ -215,8 +217,10 @@ def restaurantMenu(restaurant_id):
 # Task 1: Create route for newMenuItem function here
 @app.route('/restaurants/<int:restaurant_id>/new', methods=['GET','POST'])
 def newMenuItem(restaurant_id):
+    if 'username' not in login_session:
+        return redirect('/login')
     if request.method == 'POST':
-        newItem = MenuItem(name = request.form['name'], price = request.form['price'], description = request.form['description'], restaurant_id = restaurant_id)
+        newItem = MenuItem(name = request.form['name'], price = request.form['price'], description = request.form['description'], restaurant_id = restaurant_id, user_id=restaurant.user_id)
         session.add(newItem)
         session.commit()
         flash("Menu item created!")
