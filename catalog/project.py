@@ -107,6 +107,12 @@ def gconnect():
     login_session['picture'] = data['picture']
     login_session['email'] = data['email']
 
+    #see if user exists, if not make a new one
+    user_id = getUserID(login_session['email'])
+    if not user_id:
+        user_id = createUser(login_session)
+    login_session['user_id'] = user_id
+
     output = ''
     output += '<h1>Welcome, '
     output += login_session['username']
@@ -188,11 +194,15 @@ def menuItemJSON(restaurant_id, menu_id):
     item = session.query(MenuItem).filter_by(id=menu_id).one()
     return jsonify(MenuItems=item.serialize)
 
+# Show all the restaurants
 @app.route('/')
 @app.route('/restaurants/')
 def allRestaurants():
     restaurants = session.query(Restaurant).all()
-    return render_template('restaurants.html', restaurants = restaurants)
+    if 'username' not in login_session:
+        return render_template('publicrestaurants.html', restaurants=restaurants)
+    else:
+        return render_template('restaurants.html', restaurants=restaurants)
 
 @app.route('/restaurants/new/', methods= ['GET', 'POST'])
 def newRestaurant():
