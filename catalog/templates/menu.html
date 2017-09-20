@@ -3,7 +3,12 @@
 <!-- <link rel="stylesheet" type="text/css" href='{{url_for('static', filename = 'bootstrap.css')}}'> -->
 <body>
 <div class="container">
-<h1>{{restaurant.name}}</h1>
+<h1>{{restaurant.name}}
+    <figure class="creator">
+                <img src="{{ creator.picture }}">
+                <figcaption>{{ creator.name }}</figcaption>
+            </figure>
+</h1>
 
 
 {% with messages = get_flashed_messages() %}
