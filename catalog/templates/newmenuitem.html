@@ -1,0 +1,64 @@
+<html>
+<link rel="stylesheet" type="text/css" href='{{url_for('static', filename = 'bootstrap.css')}}'>
+<style>
+input[type=text], select, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+.inputform {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+    max-width: 600px;
+}
+.formbody {
+    margin: 0 auto;
+    max-width: 500px;
+    width: 100%;
+}
+</style>
+
+<body>
+<div class="formbody">
+<div class="container">
+<h2>New Menu Item</h2>
+<div class="inputform">
+    <form action="{{url_for('newMenuItem', restaurant_id = restaurant_id)}}" method='post'>
+        <label for="name">Item Name</label>
+        <input type="text" id="name" name="name" placeholder="Name">
+
+        <label for="price">Item Price</label>
+        <input type="text" id="price" size="30" name="price" placeholder="Price">
+
+        <label for="description">Description</label>
+        <input type="text" id="description" size="50" name="description" placeholder="Description"><br>
+
+    <input type="submit" value ="Create">
+    </form>
+    <a href = '{{url_for('restaurantMenu', restaurant_id = restaurant_id) }}' style="color: red">Cancel</a>
+    </div>
+</div>
+</div>
+</body>
+
+</html>
