@@ -2,13 +2,24 @@ body {
     font-family: sans-serif;
     background-image: url('img3.jpg');
     background-color: #333333;
-    margin: 0 auto;
+    margin: 10px auto;
     max-width: 600px;
     width: 100%;
     padding: 1em;
     border: 3px solid white;
 
 }
+.menu {
+    font-family: sans-serif;
+    background-image: url('img3.jpg');
+    background-color: #333333;
+    margin: 10px auto;
+    max-width: 600px;
+    width: 100%;
+    padding: 1em;
+
+}
+
 
 h1,
 h2,
@@ -83,4 +94,9 @@ a {
 
 .flash {
     color: white;
+}
+
+.creator {
+    text-align: right;
+
 }
