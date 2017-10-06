@@ -200,10 +200,10 @@ def menuItemJSON(restaurant_id, menu_id):
 @app.route('/restaurants/')
 def allRestaurants():
     restaurants = session.query(Restaurant).all()
-    # if 'username' not in login_session:
-    #     return render_template('publicrestaurants.html', restaurants=restaurants)
-    # else:
-    return render_template('restaurants.html', restaurants=restaurants)
+    if 'username' not in login_session:
+        return render_template('publicrestaurants.html', restaurants=restaurants)
+    else:
+        return render_template('restaurants.html', restaurants=restaurants)
 
 @app.route('/restaurants/new/', methods= ['GET', 'POST'])
 def newRestaurant():
@@ -224,7 +224,10 @@ def restaurantMenu(restaurant_id):
     restaurant = session.query(Restaurant).filter_by(id = restaurant_id).one()
     creator = getUserInfo(restaurant.user_id)
     items = session.query(MenuItem).filter_by(restaurant_id=restaurant.id)
-    return render_template('menu.html', restaurant = restaurant, items = items, creator = creator)
+    if 'username' not in login_session or creator.id != login_session['user_id']:
+        return render_template('publicmenu.html', items=items, restaurant=restaurant, creator=creator)
+    else:
+        return render_template('menu.html', restaurant = restaurant, items = items, creator = creator)
 
 # Task 1: Create route for newMenuItem function here
 @app.route('/restaurants/<int:restaurant_id>/new', methods=['GET','POST'])
