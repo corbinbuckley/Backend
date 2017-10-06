@@ -1,0 +1,40 @@
+<html>
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename = 'style.css')}}">
+<!-- <link rel="stylesheet" type="text/css" href='{{url_for('static', filename = 'bootstrap.css')}}'> -->
+<body>
+<div class="container">
+<h1>{{restaurant.name}}
+    <figure class="creator">
+                <img src="{{ creator.picture }}", width="60 px", height="60 px">
+                <figcaption>{{ creator.name }}</figcaption>
+            </figure>
+</h1>
+
+<div class="row">
+    <div class="home">
+        <a href='{{url_for('allRestaurants') }}'>Return to home</a>
+    </div>
+    <div >
+        <a href = "{{url_for('showLogin')}}">Click Here to Log in</a>
+    </div>
+
+</div>
+<br>
+
+{% for i in items %}
+
+<div>
+
+<p>{{i.name}}</p>
+<p class="price"> {{i.price}} </p>
+<p class="description">{{i.description}}</p>
+
+<hr style="border-bottom: dotted white;">
+</div>
+
+
+{% endfor %}
+</div>
+</body>
+
+</html>
