@@ -235,7 +235,7 @@ def newMenuItem(restaurant_id):
     if 'username' not in login_session:
         return redirect('/login')
     if request.method == 'POST':
-        newItem = MenuItem(name = request.form['name'], price = request.form['price'], description = request.form['description'], restaurant_id = restaurant_id, user_id=restaurant.user_id)
+        newItem = MenuItem(name = request.form['name'], price = request.form['price'], description = request.form['description'], restaurant_id = restaurant_id, user_id = login_session['user_id'])
         session.add(newItem)
         session.commit()
         flash("Menu item created!")
